@@ -263,7 +263,7 @@ curl -F data=@btc_trades.csv "http://localhost:9000/imp?name=btc_trades"
 ## Some questions you can ask this dataset
 
 * How many entries per minute are we getting?
-* Can you find any gaps bigger than 1 second in data ingestion? bigger than 2? Which is the bigger you find?
+* Can you find any gaps bigger than 1 second in data ingestion? bigger than 2? Which is the biggest you find?
 * What's the most recent price registered for each side (`buy`/`sell`)?
 * Which are the minimum, maximum, and average values for each 5 minutes interval? (could be used for a candle chart)
 * Can you get the Volume Weighted Average Price in 15 minutes intervals?
@@ -309,15 +309,16 @@ curl  -F data=@nasdaq_trades.csv "http://localhost:9000/imp?name=nasdaq_trades"
 ## Some questions you can ask this dataset
 
 * How many entries per minute are we getting?
-* Can you find any gaps bigger than 500 milliseconds in data ingestion? bigger than 2 seconds? Which is the bigger you find?
+* Can you find any gaps equal or bigger than 1 second in data ingestion?
+* For minutes where gaps happened, how many gaps we observed per minute?
 * Which was the latest record for each different `id`
-* Which company performed best in each 15 minutes interval? hint: you might need to do first a CTE with SAMPLE BY, then
-a query using rank()
-* Which are the minimum, maximum, and average values for each 5 minutes interval per `id`? (could be used for a candle chart)
+* Which company performed best in each 15 minutes interval? hint: you might need to do first a CTE with SAMPLE BY, then a query using rank()
+* Which are the minimum, maximum, and average prices for each 5 minutes interval per `id`? (could be used for a candle chart)
 * Can you calculate the delta in `DayVolume` for each record compared to the previous record with the same `id`?
 hint: you might want to use LT JOIN ON
 * Explore joining this dataset (ASOF JOIN) with the `btc_trades` or `nasdaq_open_close` datasets for extra fun
 
+Find [here](./nasdaq_trades_sample_queries.sql) the SQL answers to these questions.
 
 # nasdaq_open_close (finance)
 
