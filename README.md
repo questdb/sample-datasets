@@ -168,6 +168,13 @@ curl -F data=@chicago_weather_stations.csv "http://localhost:9000/imp?name=chica
 
 # ecommerce_stats (ecommerce)
 
+Due to the commercial nature of these type of data, we couldn't find a relevant public dataset, so the ecommerce_stats
+are engineered just as a sample dataset. We are providing stats for number of visits, unique_visitors, sales, and
+number of products purchased. There is a year (2022) worth of data, with daily entry per country (`DE`, `FR`, `UK`, `IT`,
+ and `ES`) and category (`HOME`, `KITCHEN`, `BATHROOM`). We have engineered the dataset to simulate a growing site, so
+ you will notice all the metrics get bigger over time. We also introduced some seasonality in the dataset. This is a
+ good candidate sample dataset if you want to plot the data on a chart, or compare results by country.
+
 This is the table structure:
 ```sql
 CREATE TABLE IF NOT EXISTS ecommerce_stats(
@@ -194,6 +201,10 @@ curl -F data=@ecommerce_stats.csv "http://localhost:9000/imp?name=ecommerce_stat
 
 # btc_trades (finance)
 
+This dataset contains an hour (starting at `2023-09-05T16:00:00Z`) worth of Bitcoin/USD trades, as received using the
+public Coinbase API (Thank you, Coinbase!). If you feel like joining two sample datasets, the `nasdaq_trades` dataset
+below has trading information for the same hour.
+
 This is the table structure:
 ```sql
 CREATE TABLE IF NOT EXISTS 'btc_trades' (
@@ -215,33 +226,11 @@ The dataset can be now ingested via:
 curl -F data=@btc_trades.csv "http://localhost:9000/imp?name=btc_trades"
 ```
 
-# nasdaq_open_close (finance)
+# nasdaq_trades (finance)
 
-This is the table structure:
-```sql
-CREATE TABLE IF NOT EXISTS nasdaq_open_close (
-        Ticker SYMBOL capacity 256 CACHE,
-        Open DOUBLE,
-        High DOUBLE,
-        Low DOUBLE,
-        Close DOUBLE,
-        AdjClose DOUBLE,
-        Volume LONG,
-        Timestamp TIMESTAMP
-) timestamp (Timestamp) PARTITION BY MONTH WAL;
-```
-
-The table can be created from the command line (change host/port as appropriate) via:
-```bash
-curl -G --data-urlencode query@nasdaq_open_close_create_table.sql http://localhost:9000/exec
-```
-
-The dataset can be now ingested via:
-```bash
- curl  -F data=@nasdaq_open_close.csv "http://localhost:9000/imp?name=nasdaq_open_close"
- ```
-
- # nasdaq_trades (finance)
+This dataset contains an hour (starting at `2023-09-05T16:00:00Z`) worth of trades for some nasdaq-listed companies
+(`TSLA`, `NVDA`, `AMD`, `AVGO`, `AMZN`, `META`, `GOOGL`, `AAPL`, `MSFT`). The info was obtained from Yahoo Finance (Thank you, Yahoo!).
+ If you feel like joining two sample datasets, the `btc_trades` dataset above has trading information for the same hour.
 
 This is the table structure:
 ```sql
@@ -268,6 +257,39 @@ The dataset can be now ingested via:
 ```bash
 curl  -F data=@nasdaq_trades.csv "http://localhost:9000/imp?name=nasdaq_trades"
 ```
+
+
+
+# nasdaq_open_close (finance)
+
+This dataset contains six years worth of daily Open/High/Low/Close information for some nasdaq-listed companies (`TSLA`,
+ `NVDA`, `AMD`, `AVGO`, `AMZN`, `META`, `GOOGL`, `AAPL`, `MSFT`). The info was obtained from Yahoo Finance (Thank you,
+ Yahoo!). This dataset covers from `Sept 5 2017` to `Sept 5 2023`, and it overlaps with the `nasdaq_trades` and
+ `btc_trades` datasets above.
+
+This is the table structure:
+```sql
+CREATE TABLE IF NOT EXISTS nasdaq_open_close (
+        Ticker SYMBOL capacity 256 CACHE,
+        Open DOUBLE,
+        High DOUBLE,
+        Low DOUBLE,
+        Close DOUBLE,
+        AdjClose DOUBLE,
+        Volume LONG,
+        Timestamp TIMESTAMP
+) timestamp (Timestamp) PARTITION BY MONTH WAL;
+```
+
+The table can be created from the command line (change host/port as appropriate) via:
+```bash
+curl -G --data-urlencode query@nasdaq_open_close_create_table.sql http://localhost:9000/exec
+```
+
+The dataset can be now ingested via:
+```bash
+ curl  -F data=@nasdaq_open_close.csv "http://localhost:9000/imp?name=nasdaq_open_close"
+ ```
 
 
 
