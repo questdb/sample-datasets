@@ -50,6 +50,18 @@ The dataset can be now ingested via:
 curl -F data=@gitlog.csv "http://localhost:9000/imp?name=gitlog"
 ```
 
+## Some questions you can ask this dataset
+
+* How many commits do we have per repository?
+* How many do we have per repository and month? Trivia: check out the date of Go first commit? :)
+* Which is the latest registered commit for each repository?
+* And for each repository and author?
+* What was the busiest month for each of the repos?
+* Can you get an idea of the community health by tracking different contributors over the years?
+* Are there any periods where we don't have any activity for each/all of the projects? Can you find the longest period
+ without any activity? (hint: maybe using SAMPLE BY and FILL can help here)
+
+
 # chicago dataset (IoT)
 
 The Chicago Park District maintains sensors in the water at beaches along Chicago's Lake Michigan lakefront. These
@@ -166,6 +178,18 @@ The dataset can be now ingested via:
 curl -F data=@chicago_weather_stations.csv "http://localhost:9000/imp?name=chicago_weather_stations"
 ```
 
+## Some questions you can ask this dataset
+
+* Which are the more chatty water/weather sensors?
+* Which is the latest registered row for each sensor
+* Are there any periods where we don't have any activity for each/all of the sensors? Can you find the longest period
+without any activity? (hint: maybe using SAMPLE BY and FILL can help here)
+* Get the latest register for each weather station, together with its coordinates. (This could be then plotted on a map)
+* Can you join the weather and water datasets so for each entry on the water dataset we get the closest entry for the
+closest weather station? hint: Try joining each table with the locations table, downcasting the geo resolution, then
+doing an ASOF join.
+
+
 # ecommerce_stats (ecommerce)
 
 Due to the commercial nature of these type of data, we couldn't find a relevant public dataset, so the ecommerce_stats
@@ -198,12 +222,22 @@ The dataset can be now ingested via:
 curl -F data=@ecommerce_stats.csv "http://localhost:9000/imp?name=ecommerce_stats"
 ```
 
+## Some questions you can ask this dataset
+
+* What are the total stats for each month?
+* Which are the best-performing categories?
+* And for each country?
+* Can you plot the difference between UK and DE sales performance using QuestDB Console's built-in Chart functionality?
+* How many products are we selling per quarter?
+* And per quarter and country?
+
 
 # btc_trades (finance)
 
 This dataset contains an hour (starting at `2023-09-05T16:00:00Z`) worth of Bitcoin/USD trades, as received using the
 public Coinbase API (Thank you, Coinbase!). If you feel like joining two sample datasets, the `nasdaq_trades` dataset
 below has trading information for the same hour.
+
 
 This is the table structure:
 ```sql
@@ -225,6 +259,20 @@ The dataset can be now ingested via:
 ```bash
 curl -F data=@btc_trades.csv "http://localhost:9000/imp?name=btc_trades"
 ```
+
+## Some questions you can ask this dataset
+
+* How many entries per minute are we getting?
+* Can you find any gaps bigger than 1 second in data ingestion? bigger than 2? Which is the bigger you find?
+* What's the most recent price registered for each side (`buy`/`sell`)?
+* Which are the minimum, maximum, and average values for each 5 minutes interval? (could be used for a candle chart)
+* Can you get the Volume Weighted Average Price in 15 minutes intervals?
+* Explore joining this dataset (ASOF JOIN) with the `nasdaq_trades` dataset for extra fun
+
+
+_Note_: If you want to run some queries on this same dataset, but covering months worth of data, you can visit
+[https://demo.questdb.io/](https://demo.questdb.io/).
+
 
 # nasdaq_trades (finance)
 
@@ -258,6 +306,17 @@ The dataset can be now ingested via:
 curl  -F data=@nasdaq_trades.csv "http://localhost:9000/imp?name=nasdaq_trades"
 ```
 
+## Some questions you can ask this dataset
+
+* How many entries per minute are we getting?
+* Can you find any gaps bigger than 500 milliseconds in data ingestion? bigger than 2 seconds? Which is the bigger you find?
+* Which was the latest record for each different `id`
+* Which company performed best in each 15 minutes interval? hint: you might need to do first a CTE with SAMPLE BY, then
+a query using rank()
+* Which are the minimum, maximum, and average values for each 5 minutes interval per `id`? (could be used for a candle chart)
+* Can you calculate the delta in `DayVolume` for each record compared to the previous record with the same `id`?
+hint: you might want to use LT JOIN ON
+* Explore joining this dataset (ASOF JOIN) with the `btc_trades` or `nasdaq_open_close` datasets for extra fun
 
 
 # nasdaq_open_close (finance)
@@ -291,7 +350,13 @@ The dataset can be now ingested via:
  curl  -F data=@nasdaq_open_close.csv "http://localhost:9000/imp?name=nasdaq_open_close"
  ```
 
+## Some questions you can ask this dataset
 
+* Which was the highest/lowest value for each Ticker?
+* Can you get the whole record for the highest day of each Ticker?
+* Can you get a list of days with no activity? (Market was closed)
+* Can you get the delta in Volume from each day and Ticker with the day before? hint: you might want to use LT JOIN ON
+* Explore joining this dataset (ASOF JOIN) with the `nasdaq_trades` for extra fun
 
 
 
