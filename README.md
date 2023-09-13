@@ -21,7 +21,7 @@ The datasets we are providing are:
 
 ## gitlog (logs/activity)
 
-This dataset has been generating parsing the `git log` output for three open source repositories: [QuestDB](https://github.com/questdb/questdb), [Go](https://github.com/golang/go), and [Kubernetes](https://github.com/kubernetes/kubernetes). The dataset contains all the commits since the beginning of each project until `2023-09-05T07:05:52.000000Z`.
+This dataset has been generating parsing the `git log` output for three open source repositories: [QuestDB](https://github.com/questdb/questdb), [Go](https://github.com/golang/go), and [Kubernetes](https://github.com/kubernetes/kubernetes). The dataset contains all the commits (~174K rows) since the beginning of each project until `2023-09-05T07:05:52.000000Z`.
 
 This is the table structure:
 ```sql
@@ -194,7 +194,7 @@ doing an ASOF join.
 
 Due to the commercial nature of these type of data, we couldn't find a relevant public dataset, so the ecommerce_stats
 are engineered just as a sample dataset. We are providing stats for number of visits, unique_visitors, sales, and
-number of products purchased. There is a year (2022) worth of data, with daily entry per country (`DE`, `FR`, `UK`, `IT`,
+number of products purchased. There is a year (2022) worth of data –5475 rows– with daily entry per country (`DE`, `FR`, `UK`, `IT`,
  and `ES`) and category (`HOME`, `KITCHEN`, `BATHROOM`). We have engineered the dataset to simulate a growing site, so
  you will notice all the metrics get bigger over time. We also introduced some seasonality in the dataset. This is a
  good candidate sample dataset if you want to plot the data on a chart, or compare results by country.
@@ -225,16 +225,18 @@ curl -F data=@ecommerce_stats.csv "http://localhost:9000/imp?name=ecommerce_stat
 ## Some questions you can ask this dataset
 
 * What are the total stats for each month?
-* Which are the best-performing categories?
+* And by category?
 * And for each country?
 * Can you plot the difference between UK and DE sales performance using QuestDB Console's built-in Chart functionality?
-* How many products are we selling per quarter?
+* How many products are we selling per quarter? Ordered by quarter and total of products.
 * And per quarter and country?
+
+Find [here](./ecommerce_stats_sample_queries.sql) some SQL answers to these questions.
 
 
 # btc_trades (finance)
 
-This dataset contains an hour (starting at `2023-09-05T16:00:00Z`) worth of Bitcoin/USD trades, as received using the
+This dataset contains an hour (~13K rows, starting at `2023-09-05T16:00:00Z`) worth of Bitcoin/USD trades, as received using the
 public Coinbase API (Thank you, Coinbase!). If you feel like joining two sample datasets, the `nasdaq_trades` dataset
 below has trading information for the same hour.
 
@@ -277,7 +279,7 @@ _Note_: If you want to run some queries on this same dataset, but covering month
 
 # nasdaq_trades (finance)
 
-This dataset contains an hour (starting at `2023-09-05T16:00:00Z`) worth of trades for some nasdaq-listed companies
+This dataset contains an hour (~24K rows, starting at `2023-09-05T16:00:00Z`) worth of trades for some nasdaq-listed companies
 (`TSLA`, `NVDA`, `AMD`, `AVGO`, `AMZN`, `META`, `GOOGL`, `AAPL`, `MSFT`). The info was obtained from Yahoo Finance (Thank you, Yahoo!).
  If you feel like joining two sample datasets, the `btc_trades` dataset above has trading information for the same hour.
 
@@ -323,7 +325,7 @@ Find [here](./nasdaq_trades_sample_queries.sql) some SQL answers to these questi
 
 # nasdaq_open_close (finance)
 
-This dataset contains six years worth of daily Open/High/Low/Close information for some nasdaq-listed companies (`TSLA`,
+This dataset contains six years (~13.6K rows) worth of daily Open/High/Low/Close information for some nasdaq-listed companies (`TSLA`,
  `NVDA`, `AMD`, `AVGO`, `AMZN`, `META`, `GOOGL`, `AAPL`, `MSFT`). The info was obtained from Yahoo Finance (Thank you,
  Yahoo!). This dataset covers from `Sept 5 2017` to `Sept 5 2023`, and it overlaps with the `nasdaq_trades` and
  `btc_trades` datasets above.
