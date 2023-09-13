@@ -318,7 +318,7 @@ curl  -F data=@nasdaq_trades.csv "http://localhost:9000/imp?name=nasdaq_trades"
 hint: you might want to use LT JOIN ON
 * Explore joining this dataset (ASOF JOIN) with the `btc_trades` or `nasdaq_open_close` datasets for extra fun
 
-Find [here](./nasdaq_trades_sample_queries.sql) the SQL answers to these questions.
+Find [here](./nasdaq_trades_sample_queries.sql) some SQL answers to these questions.
 
 # nasdaq_open_close (finance)
 
@@ -359,5 +359,6 @@ The dataset can be now ingested via:
 * Can you get the delta in Volume from each day and Ticker with the day before? hint: you might want to use LT JOIN ON
 * Explore joining this dataset (ASOF JOIN) with the `nasdaq_trades` for extra fun
 
+Find [here](./nasdaq_open_close_sample_queries.sql) some SQL answers to these questions.
 
 
