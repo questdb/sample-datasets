@@ -55,11 +55,13 @@ curl -F data=@gitlog.csv "http://localhost:9000/imp?name=gitlog"
 * How many commits do we have per repository?
 * How many do we have per repository and month? Trivia: check out the date of Go first commit? :)
 * Which is the latest registered commit for each repository?
-* And for each repository and author?
-* What was the busiest month for each of the repos?
+* And the most recent contribution for each repository and author?
+* What was the busiest day for each of the repos?
 * Can you get an idea of the community health by tracking different contributors over the years?
 * Are there any periods where we don't have any activity for each/all of the projects? Can you find the longest period
  without any activity? (hint: maybe using SAMPLE BY and FILL can help here)
+
+Find [here](./gitlog_sample_queries.sql) some SQL answers to these questions.
 
 
 # chicago dataset (IoT)
