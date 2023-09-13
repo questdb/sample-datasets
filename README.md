@@ -269,6 +269,7 @@ curl -F data=@btc_trades.csv "http://localhost:9000/imp?name=btc_trades"
 * Can you get the Volume Weighted Average Price in 15 minutes intervals?
 * Explore joining this dataset (ASOF JOIN) with the `nasdaq_trades` dataset for extra fun
 
+Find [here](./btc_trades_sample_queries.sql) some SQL answers to these questions.
 
 _Note_: If you want to run some queries on this same dataset, but covering months worth of data, you can visit
 [https://demo.questdb.io/](https://demo.questdb.io/).
