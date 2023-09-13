@@ -191,6 +191,8 @@ without any activity? (hint: maybe using SAMPLE BY and FILL can help here)
 closest weather station? hint: Try joining each table with the locations table, downcasting the geo resolution, then
 doing an ASOF join.
 
+Find [here](./chicago_sample_queries.sql) some SQL answers to these questions.
+
 
 # ecommerce_stats (ecommerce)
 
