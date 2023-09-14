@@ -43,10 +43,6 @@ Single table. 5475 rows.
 
 [Info and ingestion instructions](./ecommerce_stats/README.md)
 
-* `btc_trades`: One hour worth of trading data for 'BTC-USD', at about one second intervals, as received from the Coinbase API (The hour interval is the same as in the `nasdaq_trades` dataset).
-* `nasdaq_trades`: One hour worth of trading data for several Nasdaq-listed companies, as received from Yahoo Finance (The hour interval is the same as in the `btc_trades` dataset, and the symbols as the same as in the `nasdaq_open_low` dataset).
-* `nasdaq_open_low`: Open/High/Low/Close information for several Nasdaq-listed companies (The same symbols as in the `nasdaq_trades` dataset).
-
 ---
 
 ## finance dataset
@@ -58,3 +54,4 @@ using `AS OF` joins.
     * `nasdaq_trades`: 14842 rows with trades for nine nasdaq-listed companies.
     * `nasdaq_open_close`: 13590 rows with historical Open/Close/Low/High information for the same nine nasdaq-listed companies.
 
+[Info and ingestion instructions](./finance/README.md)
