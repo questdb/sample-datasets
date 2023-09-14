@@ -26,9 +26,10 @@ The Chicago Park District maintains sensors in the water at beaches along Chicag
 sensors generally capture measurements hourly.
 
 The dataset contains three tables:
-    * chicago_sensor_locations. 9 rows
-    * chicago_water_sensors. ~42K rows
-    * chicago_weather_stations. ~160K rows
+
+* `chicago_sensor_locations`: 9 rows
+* `chicago_water_sensors`: ~42K rows
+* `chicago_weather_stations`: ~160K rows
 
 [Info and ingestion instructions](./chicago_sensors/README.md)
 
@@ -49,8 +50,9 @@ Single table. 5475 rows.
 
 The finance is formed by three independent tables which overlap in time, so they can be explored individually or
 using `AS OF` joins:
-    * btc_trade: 5882 rows with Bitcoin/USD trades.
-    * nasdaq_trades: 14842 rows with trades for nine nasdaq-listed companies.
-    * nasdaq_open_close: 13590 rows with historical Open/Close/Low/High information for the same nine nasdaq-listed companies.
+
+* `btc_trade`: 5882 rows with Bitcoin/USD trades.
+* `nasdaq_trades`: 14842 rows with trades for nine nasdaq-listed companies.
+* `nasdaq_open_close`: 13590 rows with historical Open/Close/Low/High information for the same nine nasdaq-listed companies.
 
 [Info and ingestion instructions](./finance/README.md)

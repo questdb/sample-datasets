@@ -3,9 +3,9 @@
 The finance is formed by three independent tables which overlap in time, so they can be explored individually or
 using `AS OF` joins.
 
-    * `btc_trades`: 5882 rows with Bitcoin/USD trades.
-    * `nasdaq_trades`: 14842 rows with trades for nine nasdaq-listed companies.
-    * `nasdaq_open_close`: 13590 rows with historical Open/Close/Low/High information for the same nine nasdaq-listed companies.
+* `btc_trades`: 5882 rows with Bitcoin/USD trades.
+* `nasdaq_trades`: 14842 rows with trades for nine nasdaq-listed companies.
+* `nasdaq_open_close`: 13590 rows with historical Open/Close/Low/High information for the same nine nasdaq-listed companies.
 
 ---
 
