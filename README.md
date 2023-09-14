@@ -35,7 +35,7 @@ The dataset contains three tables:
 
 ---
 
-## ecommerce_stats (ecommerce)
+## Ecommerce Stats dataset (ecommerce)
 
 Synthetic statistics for an international ecommerce website. A year of data with a daily record for each country and
 category.
@@ -46,7 +46,7 @@ Single table. 5475 rows.
 
 ---
 
-## finance dataset
+## finance dataset (Crypto/Market Data)
 
 The finance is formed by three independent tables which overlap in time, so they can be explored individually or
 using `AS OF` joins:
