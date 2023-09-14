@@ -7,4 +7,5 @@ CREATE TABLE IF NOT EXISTS nasdaq_open_close (
         AdjClose DOUBLE,
         Volume LONG,
         Timestamp TIMESTAMP
-) timestamp (Timestamp) PARTITION BY MONTH WAL;
+) timestamp (Timestamp) PARTITION BY MONTH WAL
+DEDUP UPSERT KEYS(Timestamp, Ticker);

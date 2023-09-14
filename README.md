@@ -84,12 +84,14 @@ The locations of the Chicago Park District water and weather sensors that feed h
 This is the table structure:
 ```sql
 CREATE TABLE IF NOT EXISTS chicago_sensor_locations (
+    UpdatedAt TIMESTAMP,
     SensorName SYMBOL,
     SensorType SYMBOL,
     Latitude DOUBLE,
     Longitude DOUBLE,
     G7c GEOHASH(7c)
-    );
+) timestamp(UpdatedAt) PARTITION BY YEAR WAL
+DEDUP UPSERT KEYS(UpdatedAt, SensorName);
 ```
 
 We added the `G7c` column to the original dataset, representing a Geohash of 7chars (35 bytes), which allows for
@@ -125,7 +127,8 @@ CREATE TABLE IF NOT EXISTS chicago_water_sensors (
     BatteryLife DOUBLE,
     MeasurementTimestampLabel STRING,
     MeasurementID STRING
-    ) timestamp(MeasurementTimestamp) PARTITION BY MONTH WAL;
+) timestamp(MeasurementTimestamp) PARTITION BY MONTH WAL
+DEDUP UPSERT KEYS(MeasurementTimestamp, BeachName);
 ```
 
 Raw data is available at https://data.cityofchicago.org/Parks-Recreation/Beach-Water-Quality-Automated-Sensors/qmqz-2xku
@@ -146,7 +149,7 @@ About 160K rows.
 
 This is the table structure:
 ```sql
- CREATE TABLE IF NOT EXISTS chicago_weather_stations (
+CREATE TABLE IF NOT EXISTS chicago_weather_stations (
     MeasurementTimestamp TIMESTAMP,
     StationName SYMBOL,
     AirTemperature DOUBLE,
@@ -165,7 +168,8 @@ This is the table structure:
     BatteryLife DOUBLE,
     MeasurementTimestampLabel STRING,
     MeasurementID STRING
-    ) timestamp(MeasurementTimestamp) PARTITION BY MONTH WAL;
+) timestamp(MeasurementTimestamp) PARTITION BY MONTH WAL
+DEDUP UPSERT KEYS(MeasurementTimestamp, StationName);
 ```
 
 Raw data is available at https://data.cityofchicago.org/. Parks-Recreation/Beach-Weather-Stations-Automated-Sensors/k7hf-8y75
@@ -213,7 +217,8 @@ CREATE TABLE IF NOT EXISTS ecommerce_stats(
   unique_visitors LONG,
   sales DOUBLE,
   number_of_products INT
-) timestamp (ts) PARTITION BY DAY WAL DEDUP UPSERT KEYS(ts, country, category);
+) timestamp (ts) PARTITION BY DAY WAL
+DEDUP UPSERT KEYS(ts, country, category);
 ```
 
 The table can be created from the command line (change host/port as appropriate) via:
@@ -240,7 +245,7 @@ Find [here](./ecommerce_stats_sample_queries.sql) some SQL answers to these ques
 
 # btc_trades (finance)
 
-This dataset contains an hour (~13K rows, starting at `2023-09-05T16:00:00Z`) worth of Bitcoin/USD trades, as received using the
+This dataset contains an hour (~5.9K rows, starting at `2023-09-05T16:00:00Z`) worth of Bitcoin/USD trades, as received using the
 public Coinbase API (Thank you, Coinbase!). If you feel like joining two sample datasets, the `nasdaq_trades` dataset
 below has trading information for the same hour.
 
@@ -253,7 +258,8 @@ CREATE TABLE IF NOT EXISTS 'btc_trades' (
     price DOUBLE,
     amount DOUBLE,
     timestamp TIMESTAMP
-    ) timestamp (timestamp) PARTITION BY DAY WAL;
+) timestamp (timestamp) PARTITION BY DAY WAL
+DEDUP UPSERT KEYS(timestamp, symbol);
 ```
 
 The table can be created from the command line (change host/port as appropriate) via:
@@ -283,7 +289,7 @@ _Note_: If you want to run some queries on this same dataset, but covering month
 
 # nasdaq_trades (finance)
 
-This dataset contains an hour (~24K rows, starting at `2023-09-05T16:00:00Z`) worth of trades for some nasdaq-listed companies
+This dataset contains an hour (~15K rows, starting at `2023-09-05T16:00:00Z`) worth of trades for some nasdaq-listed companies
 (`TSLA`, `NVDA`, `AMD`, `AVGO`, `AMZN`, `META`, `GOOGL`, `AAPL`, `MSFT`). The info was obtained from Yahoo Finance (Thank you, Yahoo!).
  If you feel like joining two sample datasets, the `btc_trades` dataset above has trading information for the same hour.
 
@@ -300,7 +306,8 @@ CREATE TABLE IF NOT EXISTS nasdaq_trades(
     dayVolume DOUBLE,
     change DOUBLE,
     priceHint LONG
-    ) TIMESTAMP (timestamp) PARTITION BY DAY WAL;
+) TIMESTAMP (timestamp) PARTITION BY DAY WAL
+DEDUP UPSERT KEYS(timestamp, id);
 ```
 
 The table can be created from the command line (change host/port as appropriate) via:
@@ -345,7 +352,8 @@ CREATE TABLE IF NOT EXISTS nasdaq_open_close (
         AdjClose DOUBLE,
         Volume LONG,
         Timestamp TIMESTAMP
-) timestamp (Timestamp) PARTITION BY MONTH WAL;
+) timestamp (Timestamp) PARTITION BY MONTH WAL
+DEDUP UPSERT KEYS(Timestamp, Ticker);
 ```
 
 The table can be created from the command line (change host/port as appropriate) via:

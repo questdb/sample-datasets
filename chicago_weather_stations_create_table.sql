@@ -1,4 +1,4 @@
- CREATE TABLE IF NOT EXISTS chicago_weather_stations (
+CREATE TABLE IF NOT EXISTS chicago_weather_stations (
     MeasurementTimestamp TIMESTAMP,
     StationName SYMBOL,
     AirTemperature DOUBLE,
@@ -17,4 +17,5 @@
     BatteryLife DOUBLE,
     MeasurementTimestampLabel STRING,
     MeasurementID STRING
-    ) timestamp(MeasurementTimestamp) PARTITION BY MONTH WAL;
+) timestamp(MeasurementTimestamp) PARTITION BY MONTH WAL
+DEDUP UPSERT KEYS(MeasurementTimestamp, StationName);

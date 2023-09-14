@@ -9,4 +9,5 @@ CREATE TABLE IF NOT EXISTS nasdaq_trades(
     dayVolume DOUBLE,
     change DOUBLE,
     priceHint LONG
-    ) TIMESTAMP (timestamp) PARTITION BY DAY WAL;
+) TIMESTAMP (timestamp) PARTITION BY DAY WAL
+DEDUP UPSERT KEYS(timestamp, id);
