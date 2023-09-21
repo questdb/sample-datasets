@@ -5,4 +5,4 @@ CREATE TABLE IF NOT EXISTS 'btc_trades' (
     amount DOUBLE,
     timestamp TIMESTAMP
 ) timestamp (timestamp) PARTITION BY DAY WAL
-DEDUP UPSERT KEYS(timestamp, symbol);
+DEDUP UPSERT KEYS(timestamp, symbol, price, amount);
