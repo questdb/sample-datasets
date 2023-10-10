@@ -27,15 +27,18 @@ CREATE TABLE IF NOT EXISTS 'btc_trades' (
     timestamp TIMESTAMP
 ) timestamp (timestamp) PARTITION BY DAY WAL
 DEDUP UPSERT KEYS(timestamp, symbol, price, amount);
+```
 
 ### Importing this table using the command line
 
 The table can be created from the command line (change host/port as appropriate) via:
+
 ```bash
 curl -G --data-urlencode query@btc_trades_create_table.sql http://localhost:9000/exec
 ```
 
 The table can be now ingested via:
+
 ```bash
 curl -F data=@btc_trades.csv "http://localhost:9000/imp?name=btc_trades"
 ```
@@ -85,11 +88,13 @@ DEDUP UPSERT KEYS(timestamp, id);
 ### Importing this table using the command line
 
 The table can be created from the command line (change host/port as appropriate) via:
+
 ```bash
 curl -G --data-urlencode query@nasdaq_trades_create_table.sql http://localhost:9000/exec
 ```
 
 The table can be now ingested via:
+
 ```bash
 curl  -F data=@nasdaq_trades.csv "http://localhost:9000/imp?name=nasdaq_trades"
 ```
@@ -136,11 +141,13 @@ DEDUP UPSERT KEYS(Timestamp, Ticker);
 ### Importing this table using the command line
 
 The table can be created from the command line (change host/port as appropriate) via:
+
 ```bash
 curl -G --data-urlencode query@nasdaq_open_close_create_table.sql http://localhost:9000/exec
 ```
 
 The table can be now ingested via:
+
 ```bash
  curl  -F data=@nasdaq_open_close.csv "http://localhost:9000/imp?name=nasdaq_open_close"
  ```
