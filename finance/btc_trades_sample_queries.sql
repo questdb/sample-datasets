@@ -46,7 +46,7 @@ SELECT timestamp,
 FROM btc_trades
 SAMPLE BY 5m ALIGN TO CALENDAR;
 
--- Can you get each row together with the moving average for the price on each side?
+-- Can you get each row price together with the moving average for the price on each side?
 
 SELECT timestamp, symbol, side, price, AVG(price) OVER (PARTITION BY side ORDER BY TIMESTAMP)
 FROM btc_trades;
@@ -59,7 +59,7 @@ FROM btc_trades;
 -- Can you get the Volume Weighted Average Price in 15 minutes intervals?
 
 SELECT timestamp,
-  SUM(price * amount) / SUM(amount) AS vwap_price,
+  vwap(price,amount) AS vwap_price,
   SUM(amount) AS volume
 FROM btc_trades
 SAMPLE BY 15m ALIGN TO CALENDAR;
