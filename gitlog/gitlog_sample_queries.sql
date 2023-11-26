@@ -1,4 +1,4 @@
--- How many commits do we have per repository?
+-- Number of commits per repository
 
 SELECT
   repo,
@@ -6,7 +6,7 @@ SELECT
 FROM gitlog;
 
 
--- How many do we have per repository and month? Trivia: check out the date of Go first commit? :)
+-- Number of commits per repository for each given month
 
 SELECT
   committed_datetime,
@@ -16,14 +16,14 @@ FROM gitlog
 SAMPLE BY 1M ALIGN TO CALENDAR;
 
 
--- Which is the latest registered commit for each repository?
+-- Most recent commit for each repository
 
 SELECT *
 FROM gitlog
 LATEST ON committed_datetime
     PARTITION BY repo;
 
--- And the most recent contribution for each repository and author?
+-- Most recent contribution for each repository, per author
 
 SELECT *
 FROM gitlog
@@ -31,7 +31,7 @@ LATEST ON committed_datetime
     PARTITION BY repo, author_name;
 
 
--- What was the busiest day for each of the repos?
+-- Busiest day for each of the repositories
 
 WITH totals AS (
     SELECT
@@ -53,7 +53,7 @@ ORDER BY repo
 ;
 
 
--- Can you get an idea of the community health by tracking different contributors over the years?
+-- Understand how vibrant a community is by tracking contributor's activity over time
 
 SELECT
   committed_datetime,
@@ -63,7 +63,7 @@ FROM gitlog
 SAMPLE BY 1y ALIGN TO CALENDAR;
 
 
--- Are there any periods where we don't have any activity for each/all of the projects? Can you find the longest period
+-- Find periods without any commit activity for each or all of the projects
 
 WITH kube_sampled_and_interpolated AS (
   SELECT
@@ -77,19 +77,7 @@ WITH kube_sampled_and_interpolated AS (
  SELECT * FROM kube_sampled_and_interpolated
  WHERE commits IS NULL;
 
-
-WITH questdb_sampled_and_interpolated AS (
-  SELECT
-    committed_datetime,
-    repo,
-    count() as commits
-  FROM gitlog
-  WHERE repo = 'questdb'
-  SAMPLE BY 20d FILL(NULL) ALIGN TO CALENDAR
- )
- SELECT * FROM questdb_sampled_and_interpolated
- WHERE commits IS NULL;
-
+-- Find the most prolonged period without any activity (hint: SAMPLE BY and FILL can help for this query)
 
  WITH go_sampled_and_interpolated AS (
   SELECT
