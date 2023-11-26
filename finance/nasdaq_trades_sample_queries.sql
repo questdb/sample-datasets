@@ -1,10 +1,10 @@
--- How many entries per minute are we getting?
+-- Number of trades per minute
 
 SELECT timestamp, count()
 FROM nasdaq_trades
 SAMPLE BY 1m ALIGN TO CALENDAR;
 
--- Can you find any gaps equal or bigger than 1 second in data ingestion?
+-- Gaps longer than 1 second, without any data being ingested
 
 WITH trades_and_gaps AS (
     SELECT
@@ -16,7 +16,7 @@ SELECT *
 FROM trades_and_gaps
 WHERE total IS NULL;
 
--- For minutes where gaps happened, how many gaps we observed per minute?
+-- Gaps observed per minute (with gaps of more than 1 minute)
 
 WITH trades_and_gaps AS (
     SELECT
@@ -29,13 +29,13 @@ FROM trades_and_gaps
 WHERE total IS NULL
 SAMPLE BY 1m ALIGN TO CALENDAR;
 
--- Which was the latest record for each different `id`
+-- The most recent record for each ID
 
 SELECT *
 FROM nasdaq_trades
 LATEST ON timestamp PARTITION BY id;
 
--- Which company performed best in each 15 minutes interval?
+-- The company that performed best during each 15-minute interval
 
 WITH intervals AS (
   SELECT
@@ -65,7 +65,7 @@ FROM
 WHERE
   position = 1
 
--- Which are the minimum, maximum, and average prices for each 5 minutes interval per `id`?
+-- High/low and average for trades per ID, during a 5-minute interval
 
 SELECT timestamp,
         id,
@@ -75,7 +75,7 @@ SELECT timestamp,
 FROM nasdaq_trades
 SAMPLE BY 5m ALIGN TO CALENDAR;
 
--- Can you calculate the delta in `DayVolume` for each record compared to the previous record with the same `id`
+-- Delta in 'DayVolume' for each trade compared to the previous trade
 
 SELECT t1.*, t2.*, t1.dayVolume - t2.dayVolume AS delta
 FROM nasdaq_trades t1

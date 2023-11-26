@@ -1,4 +1,4 @@
--- Which was the highest/lowest value for each Ticker?
+-- High/Low values for each Ticker
 
 SELECT
     Ticker,
@@ -6,7 +6,7 @@ SELECT
     MIN(Low) AS MinLow
 FROM nasdaq_open_close;
 
--- Can you get the whole record for the highest day of each Ticker?
+-- For each ticker, find the day that had the highest price at close. Then show the close price for that day
 
 WITH max_highs AS (
     SELECT
@@ -18,7 +18,7 @@ INNER JOIN max_highs mh
     ON n.Ticker = mh.Ticker AND n.High = mh.MaxHigh;
 
 
--- Can you get a list of days with no activity? (Market was closed)
+-- Days with no trading activity (when the market is closed)
 
 WITH sampled_and_interpolated_data AS (
     SELECT
@@ -30,7 +30,7 @@ SELECT TO_STR(Timestamp, 'EE') AS DayName, *
 FROM sampled_and_interpolated_data
 WHERE TotalEntries IS NULL;
 
--- Can you get the delta in Volume from each day and Ticker with the day before?
+-- Delta in trading volume from each day versus the previous day? hint: you might want to use LT JOIN ON
 
 SELECT n1.*, n2.*, n1.Volume - n2.Volume
 FROM nasdaq_open_close n1

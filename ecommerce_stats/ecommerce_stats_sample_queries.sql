@@ -1,4 +1,4 @@
--- What are the total stats for each month?
+-- Statistics for each month
 
 SELECT
   ts,
@@ -9,7 +9,7 @@ SELECT
 FROM ecommerce_stats
 SAMPLE BY 1M ALIGN TO CALENDAR;
 
--- And by category?
+-- Statistics for each month, per category
 
 SELECT
   ts,
@@ -21,7 +21,7 @@ SELECT
 FROM ecommerce_stats
 SAMPLE BY 1M ALIGN TO CALENDAR;
 
--- And for each country?
+-- Statistics for each month, per category, and per country
 
 SELECT
   ts,
@@ -35,7 +35,7 @@ FROM ecommerce_stats
 SAMPLE BY 1M ALIGN TO CALENDAR;
 
 
--- Can you plot the difference between UK and DE sales performance using QuestDB Console's built-in Chart functionality?
+-- Plot the difference between UK and DE sales performance (using QuestDB Console's built-in Chart functionality or time-series dashboards such as Grafana)
 
 WITH sales_de AS (
     (
@@ -55,7 +55,7 @@ FROM ecommerce_stats uk
 WHERE country = 'UK'
   ;
 
--- How many products are we selling per quarter?
+-- Number of products sold per quarter
 
 SELECT
   ts,
@@ -63,7 +63,7 @@ SELECT
 FROM ecommerce_stats
 SAMPLE BY 3M ALIGN TO CALENDAR;
 
--- And per quarter and country? Ordered by quarter and total of products
+-- Number of products sold per quarter and country, ordered by quarter and products
 
 SELECT
   ts,
