@@ -130,10 +130,10 @@ curl -F data=@chicago_weather_stations.csv "http://localhost:9000/imp?name=chica
 ## Some questions you can ask this dataset
 
 * Which are the more chatty water/weather sensors?
-* Which is the latest registered row for each sensor
+* Which is the latest record for each sensor
 * Are there any periods where we don't have any activity for each/all of the sensors? Can you find the longest period
 without any activity? (hint: maybe using SAMPLE BY and FILL can help here)
-* Get the latest register for each weather station, together with its coordinates. (This could be then plotted on a map)
+* Get the latest record for each weather station, together with its coordinates. (This could be then plotted on a map)
 * Can you join the weather and water datasets so for each entry on the water dataset we get the closest entry for the
 closest weather station? hint: Try joining each table with the locations table, downcasting the geo resolution, then
 doing an ASOF join.
