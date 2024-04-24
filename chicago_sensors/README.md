@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS chicago_water_sensors (
     Turbidity DOUBLE,
     TransducerDepth DOUBLE,
     WaveHeight DOUBLE,
-    WavePeriod INT,
+    WavePeriod DOUBLE,
     BatteryLife DOUBLE,
     MeasurementTimestampLabel STRING,
     MeasurementID STRING
