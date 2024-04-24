@@ -25,16 +25,22 @@ FROM chicago_weather_stations
 SAMPLE BY 1M FILL(null) ALIGN TO CALENDAR;
 
 
--- Most prolonged period without any activity? (SAMPLE BY and FILL are helpful for this
-
-WITH sampled_and_interpolated AS (
-  SELECT MeasurementTimestamp, count() AS total
-  FROM chicago_weather_stations
-  SAMPLE BY 11M FILL(null) ALIGN TO CALENDAR
+-- 50 rows with a longer gap (time delta) with the previous row for the same StationName
+WITH time_and_prev AS (
+SELECT MeasurementTimestamp, StationName,
+       first_value(MeasurementTimestamp::long) OVER (
+          PARTITION BY StationName
+          ORDER BY MeasurementTimestamp
+          ROWS BETWEEN 1 PRECEDING AND 1 PRECEDING
+          ) AS PrevTimestamp
+FROM chicago_weather_stations
 )
-SELECT *
-FROM sampled_and_interpolated
-WHERE total IS NULL;
+SELECT MeasurementTimestamp, StationName,
+       PrevTimestamp::timestamp,
+       datediff('d', MeasurementTimestamp, PrevTimestamp::timestamp) AS delta
+FROM time_and_prev
+ORDER BY delta desc
+limit 50;
 
 -- Most recent record for each weather station, alongside its coordinates (this can then be plotted on a map)
 
