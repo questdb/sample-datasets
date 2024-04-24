@@ -46,8 +46,9 @@ curl -F data=@btc_trades.csv "http://localhost:9000/imp?name=btc_trades"
 ## Some questions you can ask this table
 
 * How many entries per minute are we getting?
-* Can you find any gaps bigger than 1 second in data ingestion? bigger than 2? Which is the biggest you find?
 * What's the most recent price registered for each side (`buy`/`sell`)?
+* Can you find any gaps bigger than 1 second in data ingestion? bigger than 2?
+* Which is the biggest period with no activity you can find?
 * Which are the minimum, maximum, and average values for each 5 minutes interval? (could be used for a candle chart)
 * Can you get each row price together with the moving average for the price on each side?
 * And the average only for the minute before this row?

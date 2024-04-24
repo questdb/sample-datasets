@@ -5,7 +5,14 @@ SELECT
 FROM btc_trades
 SAMPLE BY 1m ALIGN TO CALENDAR;
 
--- Gaps longer than 1 (and then 2) second(s), without any data being ingested.
+-- The most recent price for each trade side ('buy' / 'sell').
+
+SELECT *
+FROM btc_trades
+LATEST ON timestamp PARTITION BY side;
+
+
+-- Gaps longer than 1 second, without any data being ingested.
 
 WITH trades_per_minute_interpolated AS (
     SELECT
@@ -18,23 +25,24 @@ FROM trades_per_minute_interpolated
 WHERE total IS NULL;
 
 
--- Gaps longer than 1 (and then 2) second(s), without any data being ingested.
-
-WITH trades_per_minute_interpolated AS (
-    SELECT
-        timestamp, count() AS total
-    FROM btc_trades
-    SAMPLE BY 6s FILL(NULL) ALIGN TO CALENDAR
-)
-SELECT *
-FROM trades_per_minute_interpolated
-WHERE total IS NULL;
-
--- Gaps longer than 1 (and then 2) second(s), without any data being ingested.
-
-SELECT *
+-- 50 rows with a longer gap (time delta) with the previous row for the same side (buy/sell)
+WITH time_and_prev AS (
+  SELECT timestamp, side,
+        first_value(timestamp::long) OVER (
+          PARTITION BY side
+          ORDER BY timestamp
+          ROWS BETWEEN 1 PRECEDING AND 1 PRECEDING
+          ) AS prevTimestamp
 FROM btc_trades
-LATEST ON timestamp PARTITION BY side;
+)
+SELECT timestamp, side,
+       PrevTimestamp::timestamp as prev,
+       datediff('s', timestamp, prevTimestamp::timestamp) AS delta
+FROM time_and_prev
+ORDER BY delta DESC
+limit 50;
+
+
 
 
 -- High/low and average for trades, during a 5-minute interval
