@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS gitlog (
     committed_datetime TIMESTAMP,
     repo SYMBOL,
     author_name SYMBOL,
-    summary STRING,
+    summary VARCHAR,
     size INT,
     insertions INT,
     deletions INT,

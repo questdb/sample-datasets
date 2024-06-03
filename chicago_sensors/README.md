@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS chicago_water_sensors (
     WaveHeight DOUBLE,
     WavePeriod DOUBLE,
     BatteryLife DOUBLE,
-    MeasurementTimestampLabel STRING,
-    MeasurementID STRING
+    MeasurementTimestampLabel VARCHAR,
+    MeasurementID VARCHAR
 ) timestamp(MeasurementTimestamp) PARTITION BY MONTH WAL
 DEDUP UPSERT KEYS(MeasurementTimestamp, BeachName);
 ```
@@ -76,8 +76,8 @@ CREATE TABLE IF NOT EXISTS chicago_weather_stations (
     SolarRadiation INT,
     Heading INT,
     BatteryLife DOUBLE,
-    MeasurementTimestampLabel STRING,
-    MeasurementID STRING
+    MeasurementTimestampLabel VARCHAR,
+    MeasurementID VARCHAR
 ) timestamp(MeasurementTimestamp) PARTITION BY MONTH WAL
 DEDUP UPSERT KEYS(MeasurementTimestamp, StationName);
 ```
